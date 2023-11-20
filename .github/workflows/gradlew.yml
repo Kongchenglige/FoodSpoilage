@@ -24,10 +24,13 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
-    - name: Upload JAR file
-      uses: actions/upload-artifact@v3
+    - name: Validate Gradle wrapper
+      uses: gradle/wrapper-validation-action@ccb4328a959376b642e027874838f60f8e596de3
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
       with:
-        name: Build Res
-        path: target/*.jar
+        arguments: build
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Package
+        path: build/libs
