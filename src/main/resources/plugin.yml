@@ -2,6 +2,7 @@ name: FoodSpoilage
 version: @version@
 authors: [DanTheTechMan, Undead_Zeratul, Caibinus, Callum, alyphen]
 main: spoilagesystem.FoodSpoilage
+folia-supported: true
 api-version: 1.13
 website: 'https://www.spigotmc.org/resources/food-spoilage.81507/'
 softdepend:
