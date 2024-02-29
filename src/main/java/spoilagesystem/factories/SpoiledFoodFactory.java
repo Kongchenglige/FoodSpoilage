@@ -21,7 +21,7 @@ public final class SpoiledFoodFactory {
     }
 
     public ItemStack createSpoiledFood(int amount) {
-        ItemStack spoiledFood = new ItemStack(Material.ROTTEN_FLESH);
+        ItemStack spoiledFood = new ItemStack(Material.DIRT);
 
         ItemMeta meta = spoiledFood.getItemMeta();
 
