@@ -43,7 +43,7 @@ public final class PlayerInteractListener implements Listener {
                     if (timeStampService.timeReached(item)) {
 
                         // turn it into rotten flesh
-                        ItemStack spoiledFood = spoiledFoodFactory.createSpoiledFood(item.getAmount());
+                        ItemStack spoiledFood = spoiledFoodFactory.createSpoiledFood(item.getAmount(), item);
 
                         switch (hand) {
                             case HAND -> event.getPlayer().getInventory().setItemInMainHand(spoiledFood);

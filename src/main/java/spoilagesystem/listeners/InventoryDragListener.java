@@ -41,7 +41,7 @@ public final class InventoryDragListener implements Listener {
                     plugin.getLogger().fine("Time has been reached!");
 
                     // turn it into rotten flesh
-                    event.setCursor(spoiledFoodFactory.createSpoiledFood(item.getAmount()));
+                    event.setCursor(spoiledFoodFactory.createSpoiledFood(item.getAmount(),item));
 
                 } else {
                     plugin.getLogger().fine("Time has not been reached!");

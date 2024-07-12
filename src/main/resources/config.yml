@@ -15,6 +15,7 @@ text:
   no-time-left: 'This item has expired.'
 expiry-date-format: 'MM/dd/yyyy'
 spoiled-food-type: 'DEAD_BUSH'
+will-degrees-food: true
 spoil-time:
   default: PT24H
   BREAD: PT24H

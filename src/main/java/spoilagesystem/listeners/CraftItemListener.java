@@ -49,7 +49,7 @@ public final class CraftItemListener implements Listener {
         if (!type.isEdible()) {
             return;
         }
-        if (type == Material.ROTTEN_FLESH) {
+        if (type == configService.getSpoiledFoodType()) {
             return;
         }
         if (!time.equals(Duration.ZERO)) {
@@ -59,7 +59,7 @@ public final class CraftItemListener implements Listener {
             int amount = amountCrafted;
             if (spoilAmt > 0) {
                 amount = amountCrafted - spoilAmt;
-                ItemStack spoiledFood = spoiledFoodFactory.createSpoiledFood(spoilAmt);
+                ItemStack spoiledFood = spoiledFoodFactory.createSpoiledFood(spoilAmt, item);
                 results.add(spoiledFood);
             }
             if (amount > 0) {

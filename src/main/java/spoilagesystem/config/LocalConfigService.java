@@ -8,6 +8,7 @@ import spoilagesystem.config.migration.ConfigMigration;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -91,43 +92,47 @@ public final class LocalConfigService {
     }
 
     public String getValuesLoadedText() {
-        return ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("text.values-loaded"));
+        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(plugin.getConfig().getString("text.values-loaded")));
     }
 
     public String getNoPermsReloadText() {
-        return ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("text.no-permission-reload"));
+        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(plugin.getConfig().getString("text.no-permission-reload")));
     }
 
     public String getSpoiledFoodName() {
-        return ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("text.spoiled-food-name"));
+        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(plugin.getConfig().getString("text.spoiled-food-name")));
     }
 
     public String getSpoiledFoodLore() {
-        return ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("text.spoiled-food-lore"));
+        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(plugin.getConfig().getString("text.spoiled-food-lore")));
     }
 
     public String getNeverSpoilText() {
-        return ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("text.never-spoil"));
+        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(plugin.getConfig().getString("text.never-spoil")));
     }
 
     public String getTimeLeftText() {
-        return ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("text.time-left"));
+        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(plugin.getConfig().getString("text.time-left")));
     }
 
     public String getLessThanAnHour() {
-        return ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("text.less-than-an-hour"));
+        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(plugin.getConfig().getString("text.less-than-an-hour")));
     }
 
     public String getLessThanADay() {
-        return ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("text.less-than-a-day"));
+        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(plugin.getConfig().getString("text.less-than-a-day")));
     }
 
     public String getNoTimeLeftText() {
-        return ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("text.no-time-left"));
+        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(plugin.getConfig().getString("text.no-time-left")));
     }
 
     public Material getSpoiledFoodType(){
-        return Material.getMaterial(plugin.getConfig().getString("spoiled-food-type"));
+        return Material.getMaterial(Objects.requireNonNull(plugin.getConfig().getString("spoiled-food-type")));
+    }
+
+    public boolean canDegreesFood(){
+        return plugin.getConfig().getBoolean("will-degrees-food");
     }
 
 }
