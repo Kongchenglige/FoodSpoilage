@@ -1,10 +1,10 @@
 package spoilagesystem.listeners;
 
-import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
+import spoilagesystem.FoodSpoilage;
 import spoilagesystem.timestamp.LocalTimeStampService;
 
 public final class EntityPickupItemListener implements Listener {
@@ -18,7 +18,7 @@ public final class EntityPickupItemListener implements Listener {
     @EventHandler
     public void onEntityPickupItem(EntityPickupItemEvent event) {
         ItemStack itemStack = event.getItem().getItemStack();
-        if (itemStack.getType().isEdible() && itemStack.getType() != Material.ROTTEN_FLESH) {
+        if (itemStack.getType().isEdible() && itemStack.getType() != FoodSpoilage.getConfigService().getSpoiledFoodType()) {
             if (!timeStampService.timeStampAssigned(itemStack)) {
                 event.getItem().setItemStack(timeStampService.assignTimeStamp(itemStack));
             }

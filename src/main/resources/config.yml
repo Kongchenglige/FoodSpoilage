@@ -14,6 +14,7 @@ text:
   less-than-a-day: 'This item will expire in less than a day.'
   no-time-left: 'This item has expired.'
 expiry-date-format: 'MM/dd/yyyy'
+spoiled-food-type: 'DEAD_BUSH'
 spoil-time:
   default: PT24H
   BREAD: PT24H

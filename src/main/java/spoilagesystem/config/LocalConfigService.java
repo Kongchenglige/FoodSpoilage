@@ -125,4 +125,9 @@ public final class LocalConfigService {
     public String getNoTimeLeftText() {
         return ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("text.no-time-left"));
     }
+
+    public Material getSpoiledFoodType(){
+        return Material.getMaterial(plugin.getConfig().getString("spoiled-food-type"));
+    }
+
 }

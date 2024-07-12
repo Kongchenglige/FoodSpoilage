@@ -9,6 +9,7 @@ import spoilagesystem.commands.DefaultCommand;
 import spoilagesystem.commands.HelpCommand;
 import spoilagesystem.commands.ReloadCommand;
 import spoilagesystem.commands.TimeLeftCommand;
+import spoilagesystem.commands.AssignTimeCommand;
 import spoilagesystem.config.LocalConfigService;
 import spoilagesystem.factories.SpoiledFoodFactory;
 import spoilagesystem.listeners.*;
@@ -26,9 +27,13 @@ import static org.bukkit.ChatColor.RED;
  */
 public final class FoodSpoilage extends PonderBukkitPlugin {
 
-    private LocalConfigService configService;
+    private static LocalConfigService configService;
     private LocalTimeStampService timeStampService;
     private SpoiledFoodFactory spoiledFoodFactory;
+
+    public static LocalConfigService getConfigService() {
+        return configService;
+    }
 
     /**
      * This runs when the server starts.
@@ -87,20 +92,26 @@ public final class FoodSpoilage extends PonderBukkitPlugin {
             HelpCommand helpCommand = new HelpCommand();
             ReloadCommand reloadCommand = new ReloadCommand(this, configService);
             TimeLeftCommand timeLeftCommand = new TimeLeftCommand(configService, timeStampService);
+            AssignTimeCommand AssignTimeCommand = new AssignTimeCommand(configService, timeStampService);
             foodSpoilageCommand.setExecutor((sender, cmd, label, args) -> {
                 if (args.length < 1) {
                     defaultCommand.onCommand(sender, cmd, label, new String[0]);
                     return true;
                 }
-                switch (args[0].toLowerCase()) {
-                    case "help": return helpCommand.onCommand(sender, cmd, label, Arrays.stream(args).skip(1).toArray(String[]::new));
-                    case "reload": return reloadCommand.onCommand(sender, cmd, label, Arrays.stream(args).skip(1).toArray(String[]::new));
-                    case "timeleft": return timeLeftCommand.onCommand(sender, cmd, label, Arrays.stream(args).skip(1).toArray(String[]::new));
-                    default: {
+                return switch (args[0].toLowerCase()) {
+                    case "help" ->
+                            helpCommand.onCommand(sender, cmd, label, Arrays.stream(args).skip(1).toArray(String[]::new));
+                    case "reload" ->
+                            reloadCommand.onCommand(sender, cmd, label, Arrays.stream(args).skip(1).toArray(String[]::new));
+                    case "timeleft" ->
+                            timeLeftCommand.onCommand(sender, cmd, label, Arrays.stream(args).skip(1).toArray(String[]::new));
+                    case "assign" ->
+                            AssignTimeCommand.onCommand(sender, cmd, label, Arrays.stream(args).skip(1).toArray(String[]::new));
+                    default -> {
                         sender.sendMessage(RED + "That command wasn't found.");
-                        return true;
+                        yield true;
                     }
-                }
+                };
             });
         }
     }

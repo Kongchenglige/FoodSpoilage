@@ -11,10 +11,10 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static java.time.format.DateTimeFormatter.ISO_OFFSET_DATE;
-import static java.util.logging.Level.SEVERE;
 import static org.bukkit.persistence.PersistentDataType.STRING;
 
 /**
@@ -32,7 +32,7 @@ public final class LocalTimeStampService {
         this.plugin = plugin;
         this.configService = configService;
 
-        dateFormatter = DateTimeFormatter.ofPattern(plugin.getConfig().getString("expiry-date-format", "MM/dd/yyyy"));
+        dateFormatter = DateTimeFormatter.ofPattern(Objects.requireNonNull(plugin.getConfig().getString("expiry-date-format", "MM/dd/yyyy")));
         expiryKey = new NamespacedKey(plugin, "expiry");
     }
 

@@ -15,8 +15,9 @@ commands:
       /foodspoilage - displays plugin information
       /foodspoilage help - shows FoodSpoilage commands
       /foodspoilage timeleft - displays the amount of time until the item in your hand expires
+      /foodspoilage assign - Set a item expires time.
       /foodspoilage reload - reloads the config
-    usage: /<command> [help|timeleft|reload]
+    usage: /<command> [help|timeleft|assign|reload]
 permissions:
   fs.default:
     default: true
@@ -25,4 +26,6 @@ permissions:
   fs.timeleft:
     default: true
   fs.reload:
+    default: op
+  fs.assign:
     default: op

@@ -23,6 +23,7 @@ public final class HelpCommand implements CommandExecutor {
                 AQUA + "=== FoodSpoilage Commands ===",
                 AQUA + "/fs help - View a list of helpful commands.",
                 AQUA + "/fs timeleft - View how much time is left before an item expires.",
+                AQUA + "/fs assign <hours|forever> - Set a item expires time.",
                 AQUA + "/fs reload - Reload the plugin's configuration/save files."
         });
         return true;

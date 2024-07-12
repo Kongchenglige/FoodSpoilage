@@ -1,10 +1,8 @@
 package spoilagesystem.factories;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
 import spoilagesystem.config.LocalConfigService;
 
 import java.util.Collections;
@@ -21,7 +19,7 @@ public final class SpoiledFoodFactory {
     }
 
     public ItemStack createSpoiledFood(int amount) {
-        ItemStack spoiledFood = new ItemStack(Material.DIRT);
+        ItemStack spoiledFood = new ItemStack(configService.getSpoiledFoodType());
 
         ItemMeta meta = spoiledFood.getItemMeta();
 
