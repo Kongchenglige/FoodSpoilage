@@ -45,7 +45,7 @@ public final class FoodSpoilage extends PonderBukkitPlugin {
         }
         configService = new LocalConfigService(this);
         timeStampService = new LocalTimeStampService(this, configService);
-        spoiledFoodFactory = new SpoiledFoodFactory(configService);
+        spoiledFoodFactory = new SpoiledFoodFactory(configService, timeStampService);
         registerEventHandlers();
         initializeCommands();
         handlebStatsIntegration();

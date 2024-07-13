@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import spoilagesystem.config.LocalConfigService;
+import spoilagesystem.timestamp.LocalTimeStampService;
 
 import java.util.Collections;
 
@@ -14,9 +15,11 @@ import java.util.Collections;
 public final class SpoiledFoodFactory {
 
     private final LocalConfigService configService;
+    private final LocalTimeStampService timeStampService;
 
-    public SpoiledFoodFactory(LocalConfigService configService) {
+    public SpoiledFoodFactory(LocalConfigService configService, LocalTimeStampService timeStampService) {
         this.configService = configService;
+        this.timeStampService = timeStampService;
     }
 
     public ItemStack createSpoiledFood(int amount,ItemStack item) {
@@ -46,6 +49,12 @@ public final class SpoiledFoodFactory {
             if (type == Material.GOLDEN_CARROT) {
                 spoiledFood = new ItemStack(Material.CARROT);
             }
+
+            if (type == Material.POTATO) {
+                spoiledFood = new ItemStack(Material.POISONOUS_POTATO);
+            }
+
+            timeStampService.assignTimeStamp(spoiledFood);
         }
 
         spoiledFood.setAmount(amount);
