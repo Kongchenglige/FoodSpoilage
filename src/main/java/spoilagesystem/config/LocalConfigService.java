@@ -2,7 +2,6 @@ package spoilagesystem.config;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import spoilagesystem.FoodSpoilage;
 import spoilagesystem.config.migration.ConfigMigration;
 
@@ -18,13 +17,20 @@ public final class LocalConfigService {
 
     private final FoodSpoilage plugin;
     private final List<ConfigMigration> migrations;
+    private final ConfigCache configCache;
 
     public LocalConfigService(FoodSpoilage plugin) {
         this.plugin = plugin;
         this.migrations = List.of();
         this.random = new Random();
+        configCache = new ConfigCache();
+        configCache.load(plugin);
         runMigrations();
         plugin.saveDefaultConfig();
+    }
+
+    public void reload(FoodSpoilage plugin) {
+        configCache.load(plugin);
     }
 
     private final Random random;
@@ -37,7 +43,9 @@ public final class LocalConfigService {
      * @see org.bukkit.configuration.MemorySection#getInt(String)
      */
     public Duration getTime(Material type) {
-        String durationString = plugin.getConfig().getString("spoil-time." + type.toString(), plugin.getConfig().getString("spoil-time.default"));
+        String path = "spoil-time." + type.toString();
+        String durationString = (String) configCache.get(path);
+        //String durationString = plugin.getConfig().getString("spoil-time." + type.toString(), plugin.getConfig().getString("spoil-time.default"));
         if (durationString == null) return Duration.ZERO;
         Duration time = Duration.parse(durationString); // Get the time from the config.
         plugin.getLogger().fine("Time from configuration for " + type.name() + ":\t" + time);
@@ -53,7 +61,9 @@ public final class LocalConfigService {
      * @return amount of the item that has spoiled
      */
     public int determineSpoiledAmount(Material type, int qty) {
-        double chance = plugin.getConfig().getDouble("spoil-chance." + type.toString(), 0);
+        String path = "spoil-chance." + type.toString();
+        double chance = (double) configCache.get(path);
+        //double chance = plugin.getConfig().getDouble("spoil-chance." + type.toString(), 0);
         if (chance <= 0) return 0;
         int amountSpoiled = 0;
         for (int i = 0; i < qty; i++) {
@@ -62,17 +72,6 @@ public final class LocalConfigService {
             }
         }
         return amountSpoiled;
-    }
-
-    /**
-     * Method to obtain the spoil-chance for the given Item.
-     *
-     * @param stack to reference
-     * @return spoil chance.
-     * @see #determineSpoiledAmount(Material, int)
-     */
-    public int determineSpoiledAmount(ItemStack stack) {
-        return determineSpoiledAmount(stack.getType(), stack.getAmount());
     }
 
     public void runMigrations() {
@@ -86,53 +85,52 @@ public final class LocalConfigService {
     }
 
     public List<String> getExpiryDateText() {
-        return plugin.getConfig().getStringList("text.expiry-date-lore").stream()
+        return ((List<String>) configCache.get("text.expiry-date-lore")).stream()
                 .map(line -> ChatColor.translateAlternateColorCodes('&', line))
                 .toList();
     }
 
     public String getValuesLoadedText() {
-        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(plugin.getConfig().getString("text.values-loaded")));
+        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull((String) configCache.get("text.values-loaded")));
     }
 
     public String getNoPermsReloadText() {
-        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(plugin.getConfig().getString("text.no-permission-reload")));
+        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull((String) configCache.get("text.no-permission-reload")));
     }
 
     public String getSpoiledFoodName() {
-        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(plugin.getConfig().getString("text.spoiled-food-name")));
+        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull((String) configCache.get("text.spoiled-food-name")));
     }
 
     public String getSpoiledFoodLore() {
-        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(plugin.getConfig().getString("text.spoiled-food-lore")));
+        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull((String) configCache.get("text.spoiled-food-lore")));
     }
 
     public String getNeverSpoilText() {
-        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(plugin.getConfig().getString("text.never-spoil")));
+        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull((String) configCache.get("text.never-spoil")));
     }
 
     public String getTimeLeftText() {
-        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(plugin.getConfig().getString("text.time-left")));
+        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull((String) configCache.get("text.time-left")));
     }
 
     public String getLessThanAnHour() {
-        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(plugin.getConfig().getString("text.less-than-an-hour")));
+        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull((String) configCache.get("text.less-than-an-hour")));
     }
 
     public String getLessThanADay() {
-        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(plugin.getConfig().getString("text.less-than-a-day")));
+        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull((String) configCache.get("text.less-than-a-day")));
     }
 
     public String getNoTimeLeftText() {
-        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(plugin.getConfig().getString("text.no-time-left")));
+        return ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull((String) configCache.get("text.no-time-left")));
     }
 
     public Material getSpoiledFoodType(){
-        return Material.getMaterial(Objects.requireNonNull(plugin.getConfig().getString("spoiled-food-type")));
+        return Material.getMaterial(Objects.requireNonNull((String) configCache.get("spoiled-food-type")));
     }
 
     public boolean canDegreesFood(){
-        return plugin.getConfig().getBoolean("will-degrees-food");
+        return (Boolean) Objects.requireNonNull(configCache.get("will-degrees-food"));
     }
-
 }

@@ -30,6 +30,7 @@ public final class ReloadCommand implements CommandExecutor {
             return false;
         }
         plugin.reloadConfig();
+        configService.reload(plugin);
         sender.sendMessage(GREEN + configService.getValuesLoadedText());
         return true;
     }
